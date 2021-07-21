@@ -37,7 +37,8 @@
             android:background="@color/white"
             android:layout_gravity="center"
             android:id="@+id/boxchat"
-            android:inputType="text"/>
+            android:inputType="text"
+            android:textColor="@color/black"/>
 
         <Button
             android:layout_width="match_parent"
@@ -45,7 +46,8 @@
             android:layout_margin="10dp"
             android:backgroundTint="#FF5722"
             android:text="send"
-            android:id="@+id/sendButton"/>
+            android:id="@+id/sendButton"
+            android:textColor="@color/black"/>
     </LinearLayout>
 
 

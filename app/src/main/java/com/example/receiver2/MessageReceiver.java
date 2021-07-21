@@ -7,12 +7,14 @@ import android.util.Log;
 
 public class MessageReceiver extends BroadcastReceiver {
 
+    ReceiverAdapter receiverAdapter = new ReceiverAdapter(Message.getInstance().getMessageList());
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.d("MessageReceiver", "onReceive: string message" + intent.getAction());
         if(intent.getAction().equals("")){
-            String message = intent.getStringExtra("message");
-            Log.d("TAG", "onReceive: string message" + message);
-            Message.getInstance().addMessage(new MessageEntry(message, ""));
+            String message = intent.getStringExtra("sender message");
+
+            receiverAdapter.insertItem(new MessageEntry(message, ""));
         }
     }
 }

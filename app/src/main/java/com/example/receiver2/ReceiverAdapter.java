@@ -34,14 +34,14 @@ public class ReceiverAdapter extends RecyclerView.Adapter<ReceiverAdapter.Receiv
     @Override
     public void onBindViewHolder(ReceiverViewHolder holder, int position) {
         MessageEntry messageEntry = messagesList.get(position);
-
-
+        if (!messageEntry.getSenderMessage().isEmpty() && messageEntry.getReceiverMessage().isEmpty() ) {
             holder.senderMessage.setText(messageEntry.getSenderMessage());
-
-
+            holder.receiverMessage.setBackground(null);
+        }
+        if (messageEntry.getSenderMessage().isEmpty() && !messageEntry.getReceiverMessage().isEmpty() ) {
+            holder.senderMessage.setBackground(null);
             holder.receiverMessage.setText(messageEntry.getReceiverMessage());
-
-
+        }
 
     }
 
@@ -57,8 +57,13 @@ public class ReceiverAdapter extends RecyclerView.Adapter<ReceiverAdapter.Receiv
         public ReceiverViewHolder(View itemView) {
             super(itemView);
 
-            senderMessage = itemView.findViewById(R.id.send_message);
-            receiverMessage = itemView.findViewById(R.id.receive_message);
+            senderMessage = itemView.findViewById(R.id.receive_message);
+            receiverMessage = itemView.findViewById(R.id.send_message);
         }
+    }
+
+    public void insertItem(MessageEntry message){
+        this.messagesList.add(message);
+        notifyItemInserted(messagesList.size());
     }
 }
