@@ -22,7 +22,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="610dp"
-        android:id="@+id/message_display"/>
+        android:id="@+id/message_display"
+        android:layout_margin="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +34,7 @@
             android:layout_width="300dp"
             android:layout_height="40dp"
             android:layout_margin="5dp"
-            android:text="asd"
+            android:text="I send you my message"
             android:background="@color/white"
             android:layout_gravity="center"
             android:id="@+id/boxchat"

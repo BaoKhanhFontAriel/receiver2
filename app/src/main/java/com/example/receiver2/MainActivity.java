@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -21,18 +22,9 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     EditText boxChat;
     ReceiverAdapter receiverAdapter;
+    BroadcastReceiver myReceiver;
+    Intent receiverIntent;
 
-    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.d(TAG, "onReceive: " + intent.getAction());
-            if (intent.getAction().equals("")) {
-                String message = intent.getStringExtra("sender message");
-                Log.d("TAG", "onReceive: string message" + message);
-                receiverAdapter.insertItem(new MessageEntry(message, ""));
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,73 +35,56 @@ public class MainActivity extends AppCompatActivity {
         Button sendButton = findViewById(R.id.sendButton);
         TextView receiverTitle = findViewById(R.id.receiverTitle);
         boxChat = findViewById(R.id.boxchat);
-
-
+        myReceiver = new MyReceiver();
 
         // Send the message
-        Intent receiverIntent = new Intent();
-        receiverIntent.setAction("com.example.receiverMessage");
+
+        IntentFilter intentFilter = new IntentFilter("com.example.myMessage");
+        registerReceiver(myReceiver, intentFilter);
+
+        receiverIntent = new Intent("com.example.myMessage");
+        receiverIntent.setComponent(new ComponentName("com.example.sender2", "com.example.sender2.MyReceiver"));
 
         receiverAdapter = new ReceiverAdapter(Message.getInstance().getMessageList());
+
         recyclerView.setAdapter(receiverAdapter);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
         sendButton.setOnClickListener(v -> {
-            Message.getInstance().addMessage(new MessageEntry("", boxChat.getText().toString()));
-            receiverAdapter.notifyItemInserted(Message.getInstance().getMessageList().size() - 1);
+            showMessage("", boxChat.getText().toString());
             receiverIntent.putExtra("receiver message", boxChat.getText().toString());
             sendBroadcast(receiverIntent);
-            boxChat.getText().clear();
+
+//            boxChat.getText().clear();
         });
 
-    processIntent(getIntent());
+        processIntent(getIntent());
+    }
 
+
+    public void showMessage(String sender, String receiver) {
+        receiverAdapter.insertItem(new MessageEntry(sender, receiver));
+        recyclerView.scrollToPosition(Message.getInstance().getMessageList().size() - 1);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-
-        Log.d(TAG, intent.getAction());
         processIntent(intent);
     }
 
-    void processIntent(Intent intent){}
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume: ");
-
-        IntentFilter intentFilter = new IntentFilter("com.example.myMessage");
-        registerReceiver(broadcastReceiver, intentFilter);
+    void processIntent(Intent intent) {
+        String message = intent.getStringExtra("sender message");
+        showMessage(message, "");
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart: ");
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop: ");
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy: ");
+        unregisterReceiver(myReceiver);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause: ");
-        unregisterReceiver(broadcastReceiver);
-
-    }
 }

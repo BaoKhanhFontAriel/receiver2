@@ -1,16 +1,30 @@
 package com.example.receiver2;
 
-public class MessageEntry {
-    String senderMessage;
-    String receiverMessage;
+import android.util.Log;
 
-    public MessageEntry(String sender, String receiver){
-        this.receiverMessage = sender;
-        this.senderMessage = receiver;
+public class MessageEntry {
+    private String senderMessage;
+    private String receiverMessage;
+
+    public MessageEntry(String sender, String receiver) {
+        this.receiverMessage = receiver;
+        this.senderMessage = sender;
     }
 
-    public String getSenderMessage(){ return senderMessage;}
+    public String getSenderMessage() {
 
-    public String getReceiverMessage(){ return receiverMessage;}
+        if (senderMessage != null) {
+            return senderMessage;
+        }
+        return "";
+    }
+
+    public String getReceiverMessage() {
+
+        if (receiverMessage != null) {
+            return receiverMessage;
+        }
+        return "";
+    }
 
 }

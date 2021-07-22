@@ -1,5 +1,7 @@
 package com.example.receiver2;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 public class Message {
@@ -19,6 +21,7 @@ public class Message {
     }
 
     public ArrayList<MessageEntry> getMessageList() {
+
         return messageList;
     }
 }
