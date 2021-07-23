@@ -57,11 +57,11 @@ public class ReceiverAdapter extends RecyclerView.Adapter<ReceiverAdapter.Receiv
     public int getItemCount() {
         return messagesList.size();
     }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+//
+//    @Override
+//    public long getItemId(int position) {
+//        return position;
+//    }
 
     @Override
     public int getItemViewType(int position) {

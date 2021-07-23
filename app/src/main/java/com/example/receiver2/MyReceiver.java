@@ -19,7 +19,6 @@ public class MyReceiver extends BroadcastReceiver {
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.putExtra("sender message", intent.getStringExtra("sender message"));
             context.startActivity(i);
-
         }
     }
 }
