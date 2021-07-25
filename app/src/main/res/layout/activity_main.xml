@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,45 +12,51 @@
         android:layout_height="wrap_content"
         android:text="Receiver"
         android:textSize="40sp"
-        android:layout_gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/receiverTitle"/>
+        android:id="@+id/receiverTitle"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="610dp"
         android:id="@+id/message_display"
-        android:layout_margin="10dp"/>
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:background="@color/teal_700">
-        <EditText
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:text="I send you my message"
-            android:background="@color/white"
-            android:layout_gravity="center"
-            android:id="@+id/boxchat"
-            android:inputType="text"
-            android:textColor="@color/black"/>
+        android:layout_above="@id/send_layout"
+        android:layout_below="@id/receiverTitle"/>
 
-        <Button
+    <LinearLayout
+        android:id="@+id/send_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#E4E4E4"
+        android:layout_alignParentBottom="true">
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:backgroundTint="#FF5722"
+            android:layout_weight="0.5"
+            android:text="I send you my message"
+            android:background="@drawable/round_button"
+            android:backgroundTint="@color/white"
+            android:layout_gravity="center"
+            android:id="@+id/boxchat"
+            android:inputType="textShortMessage"
+            android:textColor="@color/black"
+            android:padding="10dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:backgroundTint="#26A69A"
+            android:background="@drawable/round_button"
             android:text="send"
             android:id="@+id/sendButton"
-            android:textColor="@color/black"/>
+            android:textColor="@color/white"
+            />
     </LinearLayout>
 
 
 
-</LinearLayout>
+</RelativeLayout>

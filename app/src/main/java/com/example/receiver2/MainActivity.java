@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     EditText boxChat;
     ReceiverAdapter receiverAdapter;
-    BroadcastReceiver myReceiver;
     Intent receiverIntent;
 
 
@@ -35,15 +34,16 @@ public class MainActivity extends AppCompatActivity {
         Button sendButton = findViewById(R.id.sendButton);
         TextView receiverTitle = findViewById(R.id.receiverTitle);
         boxChat = findViewById(R.id.boxchat);
-        myReceiver = new MyReceiver();
+
 
         // Send the message
 
-        IntentFilter intentFilter = new IntentFilter("com.example.myMessage");
-        registerReceiver(myReceiver, intentFilter);
+        IntentFilter intentFilter = new IntentFilter("update message");
+        registerReceiver(getMyReceiver, intentFilter);
 
         receiverIntent = new Intent("com.example.myMessage");
         receiverIntent.setComponent(new ComponentName("com.example.sender2", "com.example.sender2.MyReceiver"));
+
 
         receiverAdapter = new ReceiverAdapter(Message.getInstance().getMessageList());
 
@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
 //            boxChat.getText().clear();
         });
 
-        processIntent(getIntent());
     }
 
 
@@ -69,22 +68,21 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.scrollToPosition(Message.getInstance().getMessageList().size() - 1);
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        processIntent(intent);
-    }
-
-    void processIntent(Intent intent) {
-        String message = intent.getStringExtra("sender message");
-        showMessage(message, "");
-    }
+    BroadcastReceiver getMyReceiver = new MyReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(TAG, "onReceive in getMyReceiver: ");
+            if (intent.getStringExtra("sender message") != null) {
+                showMessage(intent.getStringExtra("sender message"), "");
+            }
+        }
+    };
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(myReceiver);
+        unregisterReceiver(getMyReceiver);
     }
 
 }

@@ -13,18 +13,16 @@ public class MessageEntry {
 
     public String getSenderMessage() {
 
-        if (senderMessage != null) {
-            return senderMessage;
-        }
-        return "";
+
+        return senderMessage;
+
+
     }
 
     public String getReceiverMessage() {
 
-        if (receiverMessage != null) {
-            return receiverMessage;
-        }
-        return "";
+        return receiverMessage;
+
     }
 
 }
